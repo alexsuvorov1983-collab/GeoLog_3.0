@@ -75,16 +75,74 @@ export default function MDIArea({ openDocs, activeDocId, onActivate, onClose, bo
           <div className="flex items-center justify-center h-full text-[#808080] text-sm">
             Нет открытых документов
           </div>
-        ) : activeDocId === 'doc-boreholes' ? (
-          <BoreholeTable
+        ) : (
+          <DocContent
+            docId={activeDocId}
             boreholes={boreholes}
             selectedId={selectedBoreholeId}
             onSelect={onSelectBorehole}
           />
-        ) : (
-          <div className="p-4 text-sm text-[#808080]">Документ</div>
         )}
       </div>
+    </div>
+  );
+}
+
+function DocContent({ docId, boreholes, selectedId, onSelect }: { docId: string; boreholes: Borehole[]; selectedId: string | null; onSelect: (id: string) => void }) {
+  const docConfigs: Record<string, { title: string; icon: string; description: string; columns?: string[] }> = {
+    'doc-boreholes': { title: 'Скважины', icon: '🕳️', description: 'Таблица скважин проекта' },
+    'doc-cpt': { title: 'Статическое зондирование', icon: '📊', description: 'Данные статического зондирования (CPT)', columns: ['Номер', 'Глубина, м', 'Сопротивление, МПа', 'Дата'] },
+    'doc-dpt': { title: 'Динамическое зондирование', icon: '📊', description: 'Данные динамического зондирования (DPT)', columns: ['Номер', 'Глубина, м', 'Отказ, см', 'Дата'] },
+    'doc-stamp': { title: 'Штампы', icon: '📐', description: 'Результаты испытаний штампами', columns: ['Номер', 'Площадь, см²', 'Давление, МПа', 'Осадка, мм'] },
+    'doc-vane': { title: 'Крыльчатка', icon: '🌀', description: 'Испытания крыльчаткой', columns: ['Номер', 'Глубина, м', 'Прочность, кПа', 'Дата'] },
+    'doc-soil-samples': { title: 'Пробы грунта', icon: '🏔️', description: 'Лабораторные пробы грунта', columns: ['Номер пробы', 'Скважина', 'Глубина, м', 'Тип', 'Лаб. номер'] },
+    'doc-water-samples': { title: 'Пробы воды', icon: '💧', description: 'Лабораторные пробы воды', columns: ['Номер пробы', 'Скважина', 'Глубина, м', 'Тип воды', 'Лаб. номер'] },
+    'doc-ige': { title: 'ИГЭ', icon: '📋', description: 'Инженерно-геологические элементы', columns: ['Номер ИГЭ', 'Тип грунта', 'Кол-во определений', 'Среднее значение'] },
+    'doc-aquifers': { title: 'Водоносные горизонты', icon: '💦', description: 'Характеристики водоносных горизонтов', columns: ['Номер', 'Тип', 'Глубина залегания, м', 'Мощность, м'] },
+    'doc-subsidence': { title: 'Тип просадки', icon: '⚠️', description: 'Оценка просадочности грунтов', columns: ['Номер', 'Скважина', 'Тип просадки', 'Коэффициент'] },
+    'doc-pile': { title: 'Несущая способность свай', icon: '🏗️', description: 'Расчёт несущей способности свай', columns: ['Номер', 'Тип сваи', 'Длина, м', 'Несущая способность, кН'] },
+  };
+
+  if (docId === 'doc-boreholes') {
+    return <BoreholeTable boreholes={boreholes} selectedId={selectedId} onSelect={onSelect} />;
+  }
+
+  const config = docConfigs[docId];
+  if (!config) {
+    return <div className="p-4 text-sm text-[#808080]">Документ не найден</div>;
+  }
+
+  return (
+    <div className="p-4">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-2xl">{config.icon}</span>
+        <div>
+          <h2 className="text-sm font-bold">{config.title}</h2>
+          <p className="text-xs text-[#808080]">{config.description}</p>
+        </div>
+      </div>
+      {config.columns && (
+        <div className="border border-[#c0c0c0] rounded">
+          <table className="w-full text-xs border-collapse">
+            <thead>
+              <tr className="bg-[#e8e8e8] border-b border-[#c0c0c0]">
+                {config.columns.map((col, idx) => (
+                  <th key={idx} className="px-2 py-1 text-left border-r border-[#c0c0c0] font-semibold last:border-r-0">
+                    {col}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colSpan={config.columns.length} className="px-2 py-4 text-center text-[#808080] italic">
+                  Нет данных
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

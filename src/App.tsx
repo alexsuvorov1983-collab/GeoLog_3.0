@@ -24,6 +24,20 @@ export default function App() {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; items: { label: string; commandId: string }[] } | null>(null);
   const [, forceUpdate] = useState(0);
 
+  // Open document function
+  const openDoc = useCallback((docId: string, title: string) => {
+    setOpenDocs((docs) => {
+      const existing = docs.find((d) => d.id === docId);
+      if (existing) {
+        setActiveDocId(docId);
+        return docs;
+      }
+      const newDoc = { id: docId, title, dirty: false };
+      setActiveDocId(docId);
+      return [...docs, newDoc];
+    });
+  }, []);
+
   // Register commands
   useEffect(() => {
     // File commands
@@ -70,8 +84,21 @@ export default function App() {
     stubCommand('help.manual', 'Справка');
     stubCommand('help.quickstart', 'Быстрое начало');
 
+    // Document open commands
+    CommandRegistry.register({ id: 'doc.open.boreholes', label: 'Скважины', handler: () => openDoc('doc-boreholes', 'Скважины') });
+    CommandRegistry.register({ id: 'doc.open.cpt', label: 'Статическое зондирование', handler: () => openDoc('doc-cpt', 'Статическое зондирование') });
+    CommandRegistry.register({ id: 'doc.open.dpt', label: 'Динамическое зондирование', handler: () => openDoc('doc-dpt', 'Динамическое зондирование') });
+    CommandRegistry.register({ id: 'doc.open.stamp', label: 'Штампы', handler: () => openDoc('doc-stamp', 'Штампы') });
+    CommandRegistry.register({ id: 'doc.open.vane', label: 'Крыльчатка', handler: () => openDoc('doc-vane', 'Крыльчатка') });
+    CommandRegistry.register({ id: 'doc.open.soil-samples', label: 'Пробы грунта', handler: () => openDoc('doc-soil-samples', 'Пробы грунта') });
+    CommandRegistry.register({ id: 'doc.open.water-samples', label: 'Пробы воды', handler: () => openDoc('doc-water-samples', 'Пробы воды') });
+    CommandRegistry.register({ id: 'doc.open.ige', label: 'ИГЭ', handler: () => openDoc('doc-ige', 'ИГЭ') });
+    CommandRegistry.register({ id: 'doc.open.aquifers', label: 'Водоносные горизонты', handler: () => openDoc('doc-aquifers', 'Водоносные горизонты') });
+    CommandRegistry.register({ id: 'doc.open.subsidence', label: 'Тип просадки', handler: () => openDoc('doc-subsidence', 'Тип просадки') });
+    CommandRegistry.register({ id: 'doc.open.pile', label: 'Несущая способность свай', handler: () => openDoc('doc-pile', 'Несущая способность свай') });
+
     Journal.logEvent('info', 'GeoLog 3.0 запущен');
-  }, [selectedBoreholeId]);
+  }, [selectedBoreholeId, openDoc]);
 
   // Listen for bus events
   useEffect(() => {

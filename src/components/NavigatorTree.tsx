@@ -39,25 +39,25 @@ export default function NavigatorTree({ selectedBoreholeId, onSelect, onContextM
     },
     {
       id: 'field', label: 'ПОЛЕ', icon: '🏗️', children: [
-        { id: 'boreholes', label: `Скважины (${boreholes.length})`, commandId: 'bore.open', icon: '🕳️', count: boreholes.length, children: [] },
-        { id: 'cpt', label: 'Статическое зондирование', commandId: 'cpt.open', icon: '📊' },
-        { id: 'dpt', label: 'Динамическое зондирование', commandId: 'dpt.open', icon: '📊' },
-        { id: 'stamp', label: 'Штампы', commandId: 'stamp.open', icon: '📐' },
-        { id: 'vane', label: 'Крыльчатка', commandId: 'vane.open', icon: '🌀' },
+        { id: 'boreholes', label: `Скважины (${boreholes.length})`, commandId: 'doc.open.boreholes', icon: '🕳️', count: boreholes.length, children: [] },
+        { id: 'cpt', label: 'Статическое зондирование', commandId: 'doc.open.cpt', icon: '📊' },
+        { id: 'dpt', label: 'Динамическое зондирование', commandId: 'doc.open.dpt', icon: '📊' },
+        { id: 'stamp', label: 'Штампы', commandId: 'doc.open.stamp', icon: '📐' },
+        { id: 'vane', label: 'Крыльчатка', commandId: 'doc.open.vane', icon: '🌀' },
       ]
     },
     {
       id: 'lab', label: 'ЛАБОРАТОРИЯ', icon: '🧪', children: [
-        { id: 'soil-samples', label: 'Пробы грунта', commandId: 'samples.soil', icon: '🏔️' },
-        { id: 'water-samples', label: 'Пробы воды', commandId: 'samples.water', icon: '💧' },
+        { id: 'soil-samples', label: 'Пробы грунта', commandId: 'doc.open.soil-samples', icon: '🏔️' },
+        { id: 'water-samples', label: 'Пробы воды', commandId: 'doc.open.water-samples', icon: '💧' },
       ]
     },
     {
       id: 'processing', label: 'ОБРАБОТКА', icon: '📈', children: [
-        { id: 'ige', label: 'ИГЭ', commandId: 'ige.open', icon: '📋' },
-        { id: 'aquifers', label: 'Водоносные горизонты', commandId: 'aquifers.open', icon: '💦' },
-        { id: 'subsidence', label: 'Тип просадки', commandId: 'subsidence.open', icon: '⚠️' },
-        { id: 'pile-bearing', label: 'Несущая способность свай', commandId: 'pile.open', icon: '🏗️' },
+        { id: 'ige', label: 'ИГЭ', commandId: 'doc.open.ige', icon: '📋' },
+        { id: 'aquifers', label: 'Водоносные горизонты', commandId: 'doc.open.aquifers', icon: '💦' },
+        { id: 'subsidence', label: 'Тип просадки', commandId: 'doc.open.subsidence', icon: '⚠️' },
+        { id: 'pile-bearing', label: 'Несущая способность свай', commandId: 'doc.open.pile', icon: '🏗️' },
       ]
     },
   ];
@@ -72,10 +72,7 @@ export default function NavigatorTree({ selectedBoreholeId, onSelect, onContextM
   };
 
   const handleNodeClick = (node: TreeNode) => {
-    if (node.id === 'boreholes') {
-      // Open boreholes doc
-      onSelect(null);
-    } else if (node.commandId) {
+    if (node.commandId) {
       CommandRegistry.execute(node.commandId);
     }
   };
@@ -91,12 +88,19 @@ export default function NavigatorTree({ selectedBoreholeId, onSelect, onContextM
           className={`flex items-center py-0.5 px-1 cursor-pointer hover:bg-[#e8e8ff] ${isSelected ? 'bg-[#c8c8ff]' : ''}`}
           style={{ paddingLeft: `${level * 16 + 4}px` }}
           onClick={() => {
-            if (hasChildren) toggleExpand(node.id);
-            else handleNodeClick(node);
+            if (hasChildren) {
+              toggleExpand(node.id);
+              // Also execute command if exists (for boreholes node)
+              if (node.commandId && node.id === 'boreholes') {
+                handleNodeClick(node);
+              }
+            } else {
+              handleNodeClick(node);
+            }
           }}
           onDoubleClick={() => {
-            if (node.id === 'boreholes') {
-              CommandRegistry.execute('bore.open');
+            if (node.commandId) {
+              handleNodeClick(node);
             }
           }}
           onContextMenu={(e) => {
