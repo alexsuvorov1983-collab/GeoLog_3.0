@@ -49,18 +49,18 @@ export default function MDIArea({ openDocs, activeDocId, onActivate, onClose, bo
   return (
     <div className="flex flex-col h-full bg-[#e0e0e0]">
       {/* Document Tabs */}
-      <div className="flex bg-[#f0f0f0] border-b border-[#c0c0c0] overflow-x-auto" style={{ height: '24px' }}>
+      <div className="flex bg-[#f0f0f0] border-b border-[#c0c0c0] overflow-x-auto" style={{ height: '30px' }}>
         {openDocs.map((doc) => (
           <div
             key={doc.id}
-            className={`flex items-center px-3 border-r border-[#c0c0c0] cursor-pointer text-xs ${
+            className={`flex items-center px-4 border-r border-[#c0c0c0] cursor-pointer text-sm ${
               activeDocId === doc.id ? 'bg-white font-semibold' : 'bg-[#e8e8e8] hover:bg-[#f0f0ff]'
             }`}
             onClick={() => onActivate(doc.id)}
           >
             <span>{doc.title}{doc.dirty ? ' *' : ''}</span>
             <button
-              className="ml-2 w-4 h-4 flex items-center justify-center hover:bg-[#ff6666] hover:text-white rounded text-[10px]"
+              className="ml-2 w-5 h-5 flex items-center justify-center hover:bg-[#ff6666] hover:text-white rounded text-xs"
               onClick={(e) => { e.stopPropagation(); onClose(doc.id); }}
             >
               ×
@@ -113,21 +113,21 @@ function DocContent({ docId, boreholes, selectedId, onSelect }: { docId: string;
   }
 
   return (
-    <div className="p-4">
-      <div className="flex items-center gap-2 mb-4">
-        <span className="text-2xl">{config.icon}</span>
+    <div className="p-5">
+      <div className="flex items-center gap-3 mb-5">
+        <span className="text-3xl">{config.icon}</span>
         <div>
-          <h2 className="text-sm font-bold">{config.title}</h2>
-          <p className="text-xs text-[#808080]">{config.description}</p>
+          <h2 className="text-base font-bold">{config.title}</h2>
+          <p className="text-sm text-[#808080]">{config.description}</p>
         </div>
       </div>
       {config.columns && (
         <div className="border border-[#c0c0c0] rounded">
-          <table className="w-full text-xs border-collapse">
+          <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="bg-[#e8e8e8] border-b border-[#c0c0c0]">
                 {config.columns.map((col, idx) => (
-                  <th key={idx} className="px-2 py-1 text-left border-r border-[#c0c0c0] font-semibold last:border-r-0">
+                  <th key={idx} className="px-3 py-1.5 text-left border-r border-[#c0c0c0] font-semibold last:border-r-0">
                     {col}
                   </th>
                 ))}
@@ -135,7 +135,7 @@ function DocContent({ docId, boreholes, selectedId, onSelect }: { docId: string;
             </thead>
             <tbody>
               <tr>
-                <td colSpan={config.columns.length} className="px-2 py-4 text-center text-[#808080] italic">
+                <td colSpan={config.columns.length} className="px-3 py-5 text-center text-[#808080] italic">
                   Нет данных
                 </td>
               </tr>
@@ -150,18 +150,18 @@ function DocContent({ docId, boreholes, selectedId, onSelect }: { docId: string;
 function BoreholeTable({ boreholes, selectedId, onSelect }: { boreholes: Borehole[]; selectedId: string | null; onSelect: (id: string) => void }) {
   return (
     <div className="overflow-auto h-full">
-      <table className="w-full border-collapse text-xs">
+      <table className="w-full border-collapse text-sm">
         <thead className="sticky top-0 z-10">
           <tr className="bg-[#e8e8e8] border-b border-[#c0c0c0]">
-            <th className="px-2 py-1 text-left border-r border-[#c0c0c0] font-semibold w-8">#</th>
+            <th className="px-3 py-1.5 text-left border-r border-[#c0c0c0] font-semibold w-10">#</th>
             {columns.map((col) => (
               <th
                 key={col.key}
-                className={`px-2 py-1 text-left border-r border-[#c0c0c0] font-semibold whitespace-nowrap ${col.gap ? 'bg-[#f0e8e8] text-[#999]' : ''}`}
+                className={`px-3 py-1.5 text-left border-r border-[#c0c0c0] font-semibold whitespace-nowrap ${col.gap ? 'bg-[#f0e8e8] text-[#999]' : ''}`}
                 title={col.gap ? 'Поле появится в схеме v1.4 (GAP)' : col.label}
               >
                 {col.label}
-                {col.gap && <span className="text-[9px] ml-1">⚠</span>}
+                {col.gap && <span className="text-xs ml-1">⚠</span>}
               </th>
             ))}
           </tr>
@@ -173,14 +173,14 @@ function BoreholeTable({ boreholes, selectedId, onSelect }: { boreholes: Borehol
               className={`cursor-pointer border-b border-[#e8e8e8] ${selectedId === bh.id ? 'bg-[#c8d8ff]' : idx % 2 === 0 ? 'bg-white' : 'bg-[#f8f8f8]'} hover:bg-[#e0e8ff]`}
               onClick={() => onSelect(bh.id)}
             >
-              <td className="px-2 py-0.5 border-r border-[#e8e8e8] text-[#808080]">{idx + 1}</td>
+              <td className="px-3 py-1 border-r border-[#e8e8e8] text-[#808080]">{idx + 1}</td>
               {columns.map((col) => {
                 const value = (bh as any)[col.key];
                 const formatted = formatValue(col.key, value);
                 return (
                   <td
                     key={col.key}
-                    className={`px-2 py-0.5 border-r border-[#e8e8e8] whitespace-nowrap ${col.gap ? 'text-[#bbb] italic' : ''}`}
+                    className={`px-3 py-1 border-r border-[#e8e8e8] whitespace-nowrap ${col.gap ? 'text-[#bbb] italic' : ''}`}
                     title={col.gap ? 'Поле появится в схеме v1.4' : undefined}
                   >
                     {formatted}

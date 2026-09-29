@@ -23,19 +23,19 @@ export default function BottomPanel({ borehole, onUpdate }: Props) {
 
   if (!borehole) {
     return (
-      <div className="h-[220px] min-h-[180px] border-t border-[#c0c0c0] bg-[#f5f5f5] flex flex-col">
+      <div className="h-[260px] min-h-[200px] border-t border-[#c0c0c0] bg-[#f5f5f5] flex flex-col">
         <div className="flex bg-[#e8e8e8] border-b border-[#c0c0c0]">
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              className={`px-3 py-1 text-xs border-r border-[#c0c0c0] ${activeTab === tab.id ? 'bg-white font-semibold' : 'hover:bg-[#f0f0ff]'}`}
+              className={`px-4 py-1.5 text-sm border-r border-[#c0c0c0] ${activeTab === tab.id ? 'bg-white font-semibold' : 'hover:bg-[#f0f0ff]'}`}
               onClick={() => setActiveTab(tab.id)}
             >
               {tab.label}
             </button>
           ))}
         </div>
-        <div className="flex-1 flex items-center justify-center text-[#808080] text-xs">
+        <div className="flex-1 flex items-center justify-center text-[#808080] text-sm">
           Выберите скважину для редактирования
         </div>
       </div>
@@ -43,13 +43,13 @@ export default function BottomPanel({ borehole, onUpdate }: Props) {
   }
 
   return (
-    <div className="h-[220px] min-h-[180px] border-t border-[#c0c0c0] bg-[#f5f5f5] flex flex-col">
+    <div className="h-[260px] min-h-[200px] border-t border-[#c0c0c0] bg-[#f5f5f5] flex flex-col">
       {/* Tabs */}
       <div className="flex bg-[#e8e8e8] border-b border-[#c0c0c0]">
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            className={`px-3 py-1 text-xs border-r border-[#c0c0c0] ${activeTab === tab.id ? 'bg-white font-semibold' : 'hover:bg-[#f0f0ff]'}`}
+            className={`px-4 py-1.5 text-sm border-r border-[#c0c0c0] ${activeTab === tab.id ? 'bg-white font-semibold' : 'hover:bg-[#f0f0ff]'}`}
             onClick={() => setActiveTab(tab.id)}
           >
             {tab.label}
@@ -139,8 +139,8 @@ function GeneralForm({ borehole, onUpdate }: { borehole: Borehole; onUpdate: (da
     Journal.logEvent('command', `Форма скважины ${borehole.number} сохранена`, 'bore.edit');
   };
 
-  const inputClass = "w-full px-1 py-0.5 text-xs border border-[#c0c0c0] bg-white rounded focus:border-blue-400 focus:outline-none";
-  const labelClass = "text-xs text-[#555] mb-0.5";
+  const inputClass = "w-full px-2 py-1 text-sm border border-[#c0c0c0] bg-white rounded focus:border-blue-400 focus:outline-none";
+  const labelClass = "text-sm text-[#555] mb-1";
 
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -230,28 +230,28 @@ function GeneralForm({ borehole, onUpdate }: { borehole: Borehole; onUpdate: (da
           <label className={labelClass}>Разбуривание, м</label>
           <input className={inputClass} type="number" step="0.01" value={form.reaming_m} onChange={(e) => handleChange('reaming_m', e.target.value)} />
         </div>
-        <div className="grid grid-cols-3 gap-1">
+        <div className="grid grid-cols-3 gap-2">
           <div>
             <label className={labelClass}>ГСО, м</label>
             <input className={inputClass} type="number" step="0.01" value={form.gso_m} onChange={(e) => handleChange('gso_m', e.target.value)} disabled={!form.gso_manual} />
-            <label className="flex items-center text-[10px] mt-0.5">
-              <input type="checkbox" checked={form.gso_manual} onChange={(e) => handleChange('gso_manual', e.target.checked)} className="mr-1" />
+            <label className="flex items-center text-xs mt-1">
+              <input type="checkbox" checked={form.gso_manual} onChange={(e) => handleChange('gso_manual', e.target.checked)} className="mr-1.5" />
               Вручную
             </label>
           </div>
           <div>
             <label className={labelClass}>ГСП, м</label>
             <input className={inputClass} type="number" step="0.01" value={form.gsp_m} onChange={(e) => handleChange('gsp_m', e.target.value)} disabled={!form.gsp_manual} />
-            <label className="flex items-center text-[10px] mt-0.5">
-              <input type="checkbox" checked={form.gsp_manual} onChange={(e) => handleChange('gsp_manual', e.target.checked)} className="mr-1" />
+            <label className="flex items-center text-xs mt-1">
+              <input type="checkbox" checked={form.gsp_manual} onChange={(e) => handleChange('gsp_manual', e.target.checked)} className="mr-1.5" />
               Вручную
             </label>
           </div>
           <div>
             <label className={labelClass}>ММГ, м</label>
             <input className={inputClass} type="number" step="0.01" value={form.mmg_m} onChange={(e) => handleChange('mmg_m', e.target.value)} disabled={!form.mmg_manual} />
-            <label className="flex items-center text-[10px] mt-0.5">
-              <input type="checkbox" checked={form.mmg_manual} onChange={(e) => handleChange('mmg_manual', e.target.checked)} className="mr-1" />
+            <label className="flex items-center text-xs mt-1">
+              <input type="checkbox" checked={form.mmg_manual} onChange={(e) => handleChange('mmg_manual', e.target.checked)} className="mr-1.5" />
               Вручную
             </label>
           </div>
@@ -266,7 +266,7 @@ function GeneralForm({ borehole, onUpdate }: { borehole: Borehole; onUpdate: (da
       <div className="col-span-2 flex justify-end">
         <button
           onClick={handleSave}
-          className="px-4 py-1 text-xs bg-[#4472c4] text-white rounded hover:bg-[#3060b0] border border-[#2a5090]"
+          className="px-5 py-1.5 text-sm bg-[#4472c4] text-white rounded hover:bg-[#3060b0] border border-[#2a5090]"
         >
           💾 Сохранить
         </button>
@@ -279,26 +279,26 @@ function SoilLayersTab({ borehole }: { borehole: Borehole }) {
   const layers = borehole.soil_layers || [];
   return (
     <div>
-      <div className="text-xs font-semibold mb-2">Слои грунта — {borehole.number}</div>
+      <div className="text-sm font-semibold mb-2">Слои грунта — {borehole.number}</div>
       {layers.length === 0 ? (
-        <div className="text-xs text-[#808080]">Нет данных</div>
+        <div className="text-sm text-[#808080]">Нет данных</div>
       ) : (
-        <table className="w-full text-xs border-collapse">
+        <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="bg-[#e8e8e8] border-b">
-              <th className="px-2 py-1 text-left border-r">Глубина от, м</th>
-              <th className="px-2 py-1 text-left border-r">Глубина до, м</th>
-              <th className="px-2 py-1 text-left border-r">Тип грунта</th>
-              <th className="px-2 py-1 text-left">Описание</th>
+              <th className="px-3 py-1.5 text-left border-r">Глубина от, м</th>
+              <th className="px-3 py-1.5 text-left border-r">Глубина до, м</th>
+              <th className="px-3 py-1.5 text-left border-r">Тип грунта</th>
+              <th className="px-3 py-1.5 text-left">Описание</th>
             </tr>
           </thead>
           <tbody>
             {layers.map((l) => (
               <tr key={l.id} className="border-b border-[#e8e8e8]">
-                <td className="px-2 py-0.5 border-r">{l.depth_from_m.toFixed(2)}</td>
-                <td className="px-2 py-0.5 border-r">{l.depth_to_m.toFixed(2)}</td>
-                <td className="px-2 py-0.5 border-r">{l.ground_type}</td>
-                <td className="px-2 py-0.5">{l.description || '—'}</td>
+                <td className="px-3 py-1 border-r">{l.depth_from_m.toFixed(2)}</td>
+                <td className="px-3 py-1 border-r">{l.depth_to_m.toFixed(2)}</td>
+                <td className="px-3 py-1 border-r">{l.ground_type}</td>
+                <td className="px-3 py-1">{l.description || '—'}</td>
               </tr>
             ))}
           </tbody>
@@ -312,22 +312,22 @@ function WaterLayersTab({ borehole }: { borehole: Borehole }) {
   const layers = borehole.water_layers || [];
   return (
     <div>
-      <div className="text-xs font-semibold mb-2">Слои воды — {borehole.number}</div>
+      <div className="text-sm font-semibold mb-2">Слои воды — {borehole.number}</div>
       {layers.length === 0 ? (
-        <div className="text-xs text-[#808080]">Нет данных</div>
+        <div className="text-sm text-[#808080]">Нет данных</div>
       ) : (
-        <table className="w-full text-xs border-collapse">
+        <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="bg-[#e8e8e8] border-b">
-              <th className="px-2 py-1 text-left border-r">Глубина, м</th>
-              <th className="px-2 py-1 text-left">Тип воды</th>
+              <th className="px-3 py-1.5 text-left border-r">Глубина, м</th>
+              <th className="px-3 py-1.5 text-left">Тип воды</th>
             </tr>
           </thead>
           <tbody>
             {layers.map((l) => (
               <tr key={l.id} className="border-b border-[#e8e8e8]">
-                <td className="px-2 py-0.5 border-r">{l.depth_m.toFixed(2)}</td>
-                <td className="px-2 py-0.5">{l.water_type}</td>
+                <td className="px-3 py-1 border-r">{l.depth_m.toFixed(2)}</td>
+                <td className="px-3 py-1">{l.water_type}</td>
               </tr>
             ))}
           </tbody>
@@ -341,24 +341,24 @@ function SamplesTab({ borehole }: { borehole: Borehole }) {
   const samples = borehole.samples || [];
   return (
     <div>
-      <div className="text-xs font-semibold mb-2">Пробы — {borehole.number}</div>
+      <div className="text-sm font-semibold mb-2">Пробы — {borehole.number}</div>
       {samples.length === 0 ? (
-        <div className="text-xs text-[#808080]">Нет данных</div>
+        <div className="text-sm text-[#808080]">Нет данных</div>
       ) : (
-        <table className="w-full text-xs border-collapse">
+        <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="bg-[#e8e8e8] border-b">
-              <th className="px-2 py-1 text-left border-r">Глубина, м</th>
-              <th className="px-2 py-1 text-left border-r">Тип</th>
-              <th className="px-2 py-1 text-left">Лаб. номер</th>
+              <th className="px-3 py-1.5 text-left border-r">Глубина, м</th>
+              <th className="px-3 py-1.5 text-left border-r">Тип</th>
+              <th className="px-3 py-1.5 text-left">Лаб. номер</th>
             </tr>
           </thead>
           <tbody>
             {samples.map((s) => (
               <tr key={s.id} className="border-b border-[#e8e8e8]">
-                <td className="px-2 py-0.5 border-r">{s.depth_m.toFixed(2)}</td>
-                <td className="px-2 py-0.5 border-r">{s.sample_type}</td>
-                <td className="px-2 py-0.5">{s.lab_number || '—'}</td>
+                <td className="px-3 py-1 border-r">{s.depth_m.toFixed(2)}</td>
+                <td className="px-3 py-1 border-r">{s.sample_type}</td>
+                <td className="px-3 py-1">{s.lab_number || '—'}</td>
               </tr>
             ))}
           </tbody>
@@ -372,22 +372,22 @@ function ThermometryTab({ borehole }: { borehole: Borehole }) {
   const entries = borehole.thermometry || [];
   return (
     <div>
-      <div className="text-xs font-semibold mb-2">Термометрия — {borehole.number}</div>
+      <div className="text-sm font-semibold mb-2">Термометрия — {borehole.number}</div>
       {entries.length === 0 ? (
-        <div className="text-xs text-[#808080]">Нет данных</div>
+        <div className="text-sm text-[#808080]">Нет данных</div>
       ) : (
-        <table className="w-full text-xs border-collapse">
+        <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="bg-[#e8e8e8] border-b">
-              <th className="px-2 py-1 text-left border-r">Глубина, м</th>
-              <th className="px-2 py-1 text-left">Температура, °C</th>
+              <th className="px-3 py-1.5 text-left border-r">Глубина, м</th>
+              <th className="px-3 py-1.5 text-left">Температура, °C</th>
             </tr>
           </thead>
           <tbody>
             {entries.map((t) => (
               <tr key={t.id} className="border-b border-[#e8e8e8]">
-                <td className="px-2 py-0.5 border-r">{t.depth_m.toFixed(2)}</td>
-                <td className="px-2 py-0.5">{t.temperature_c.toFixed(1)}</td>
+                <td className="px-3 py-1 border-r">{t.depth_m.toFixed(2)}</td>
+                <td className="px-3 py-1">{t.temperature_c.toFixed(1)}</td>
               </tr>
             ))}
           </tbody>
@@ -399,19 +399,19 @@ function ThermometryTab({ borehole }: { borehole: Borehole }) {
 
 function AdditionalTab({ borehole }: { borehole: Borehole }) {
   return (
-    <div className="space-y-2">
-      <div className="text-xs font-semibold mb-2">Дополнительно — {borehole.number}</div>
-      <div className="grid grid-cols-2 gap-4 text-xs">
+    <div className="space-y-3">
+      <div className="text-sm font-semibold mb-2">Дополнительно — {borehole.number}</div>
+      <div className="grid grid-cols-2 gap-5 text-sm">
         <div>
-          <div className="font-semibold mb-1">Аудит</div>
+          <div className="font-semibold mb-1.5">Аудит</div>
           <div>Пользователь: {borehole.user || '—'}</div>
           <div>Изменено: {borehole.modified_at || '—'}</div>
           <div>Ревизия: {borehole.rev || 0}</div>
         </div>
         <div>
-          <div className="font-semibold mb-1">Источник</div>
+          <div className="font-semibold mb-1.5">Источник</div>
           <div className="text-[#808080]">{borehole.source || 'Локальные данные'}</div>
-          <div className="font-semibold mt-2 mb-1">WGS84</div>
+          <div className="font-semibold mt-2 mb-1.5">WGS84</div>
           <div>Долгота: {borehole.wgs84_lon?.toFixed(4) || '—'}</div>
           <div>Широта: {borehole.wgs84_lat?.toFixed(4) || '—'}</div>
         </div>

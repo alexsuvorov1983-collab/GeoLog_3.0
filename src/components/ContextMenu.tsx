@@ -30,7 +30,7 @@ export default function ContextMenu({ x, y, items, onClose }: Props) {
       {items.map((item, idx) => (
         <button
           key={idx}
-          className="w-full text-left px-3 py-1 text-xs hover:bg-[#d0d0ff]"
+          className="w-full text-left px-4 py-1.5 text-sm hover:bg-[#d0d0ff]"
           onClick={() => {
             CommandRegistry.execute(item.commandId);
             onClose();

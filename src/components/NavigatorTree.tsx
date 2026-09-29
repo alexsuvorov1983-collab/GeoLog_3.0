@@ -85,8 +85,8 @@ export default function NavigatorTree({ selectedBoreholeId, onSelect, onContextM
     return (
       <div key={node.id}>
         <div
-          className={`flex items-center py-0.5 px-1 cursor-pointer hover:bg-[#e8e8ff] ${isSelected ? 'bg-[#c8c8ff]' : ''}`}
-          style={{ paddingLeft: `${level * 16 + 4}px` }}
+          className={`flex items-center py-1 px-1 cursor-pointer hover:bg-[#e8e8ff] ${isSelected ? 'bg-[#c8c8ff]' : ''}`}
+          style={{ paddingLeft: `${level * 18 + 6}px` }}
           onClick={() => {
             if (hasChildren) {
               toggleExpand(node.id);
@@ -114,11 +114,11 @@ export default function NavigatorTree({ selectedBoreholeId, onSelect, onContextM
           }}
         >
           {hasChildren && (
-            <span className="w-4 text-center text-[10px]">{isExpanded ? '▼' : '▶'}</span>
+            <span className="w-4 text-center text-xs">{isExpanded ? '▼' : '▶'}</span>
           )}
           {!hasChildren && <span className="w-4" />}
-          <span className="mr-1">{node.icon || '📄'}</span>
-          <span className="text-xs truncate">{node.label}</span>
+          <span className="mr-1.5">{node.icon || '📄'}</span>
+          <span className="text-sm truncate">{node.label}</span>
         </div>
         {hasChildren && isExpanded && (
           <div>
@@ -127,8 +127,8 @@ export default function NavigatorTree({ selectedBoreholeId, onSelect, onContextM
               boreholes.map((bh) => (
                 <div
                   key={bh.id}
-                  className={`flex items-center py-0.5 px-1 cursor-pointer hover:bg-[#e8e8ff] ${selectedBoreholeId === bh.id ? 'bg-[#c8c8ff]' : ''}`}
-                  style={{ paddingLeft: `${(level + 1) * 16 + 4}px` }}
+                  className={`flex items-center py-1 px-1 cursor-pointer hover:bg-[#e8e8ff] ${selectedBoreholeId === bh.id ? 'bg-[#c8c8ff]' : ''}`}
+                  style={{ paddingLeft: `${(level + 1) * 18 + 6}px` }}
                   onClick={() => onSelect(bh.id)}
                   onContextMenu={(e) => {
                     onSelect(bh.id);
@@ -140,8 +140,8 @@ export default function NavigatorTree({ selectedBoreholeId, onSelect, onContextM
                   }}
                 >
                   <span className="w-4" />
-                  <span className="mr-1">🕳️</span>
-                  <span className="text-xs">{bh.number}</span>
+                  <span className="mr-1.5">🕳️</span>
+                  <span className="text-sm">{bh.number}</span>
                 </div>
               ))
             ) : (
@@ -154,8 +154,8 @@ export default function NavigatorTree({ selectedBoreholeId, onSelect, onContextM
   };
 
   return (
-    <div className="w-[240px] min-w-[200px] bg-white border-r border-[#c0c0c0] flex flex-col overflow-hidden">
-      <div className="bg-[#e8e8e8] border-b border-[#c0c0c0] px-2 py-1 text-xs font-bold">
+    <div className="w-[280px] min-w-[240px] bg-white border-r border-[#c0c0c0] flex flex-col overflow-hidden">
+      <div className="bg-[#e8e8e8] border-b border-[#c0c0c0] px-3 py-1.5 text-sm font-bold">
         Навигатор
       </div>
       <div className="flex-1 overflow-y-auto">
